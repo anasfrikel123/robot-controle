@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Control Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.9.0/dist/nipplejs.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Robot Control Panel</h1>
+        </header>
+        <main>
+            <section class="video-section">
+                <h2>Live Camera</h2>
+                <img id="video-stream" src="/video_feed" alt="Robot Camera Feed">
+            </section>
+            <section class="controls-section">
+                <h2>Controls</h2>
+                <div id="joystick-container"></div>
+                <div id="keyboard-hint">Use WASD or Arrow keys for movement (desktop)</div>
+                <div class="servo-control">
+                    <label for="servo-angle">Camera Angle:</label>
+                    <input type="range" id="servo-angle" min="0" max="180" value="90">
+                    <span id="servo-angle-value">90°</span>
+                </div>
+                <button id="stop-btn">Stop</button>
+            </section>
+            <section class="sensor-section">
+                <h2>Sensor Data</h2>
+                <div class="sensor-data">
+                    <div>Light Level: <span id="light-level">--</span></div>
+                    <div>Distance: <span id="distance">--</span> cm</div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <span>Robot Control &copy; 2025</span>
+        </footer>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html> 
