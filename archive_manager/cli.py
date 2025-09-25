@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
+from pathlib import Path
 from typing import Optional, Sequence
 
 import typer
@@ -9,6 +10,7 @@ from sqlalchemy import func, select
 
 from .app import crud, models, schemas
 from .app.database import Base, engine, session_scope
+from .app.export import build_application_bundle
 
 
 cli = typer.Typer(help="Utilitaires pour l'application de gestion des déclarations.")
@@ -164,6 +166,28 @@ def run(
     reload: bool = typer.Option(False, help="Active le rechargement automatique (mode développement)."),
 ) -> None:
     uvicorn.run("archive_manager.main:app", host=host, port=port, reload=reload)
+
+
+@cli.command(help="Génère une archive ZIP de l'application prête à l'emploi.")
+def package(
+    output: Path = typer.Option(
+        Path("archive_manager_bundle.zip"),
+        "--output",
+        "-o",
+        help="Chemin du fichier ZIP à produire.",
+    ),
+    include_db: bool = typer.Option(
+        False,
+        "--include-db",
+        help="Inclut la base SQLite existante si elle est disponible.",
+    ),
+) -> None:
+    """Crée une archive compressée contenant le code et la configuration nécessaires."""
+
+    buffer = build_application_bundle(include_db=include_db)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_bytes(buffer.getvalue())
+    typer.echo(f"Archive de l'application créée : {output}")
 
 
 def main(args: Optional[Sequence[str]] = None) -> None:

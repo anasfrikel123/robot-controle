@@ -4,10 +4,12 @@ from datetime import date, timedelta
 from typing import Any, Dict, List, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from .app import crud, models, schemas
+from .app.export import build_application_bundle
 from .app.database import Base, engine, get_session
 
 Base.metadata.create_all(bind=engine)
@@ -201,3 +203,16 @@ def dashboard(session: Session = Depends(get_session)) -> Dict[str, Any]:
         "collaborateurs_actifs": active_collaborators,
         "clients_actifs": active_clients,
     }
+
+
+@app.get(
+    "/telechargements/application",
+    response_description="Archive ZIP de l'application prête à l'emploi",
+)
+def download_application(include_db: bool = Query(False)) -> StreamingResponse:
+    """Expose un téléchargement de l'application et de sa configuration."""
+
+    bundle = build_application_bundle(include_db=include_db)
+    filename = "archive_manager_bundle.zip"
+    headers = {"Content-Disposition": f"attachment; filename={filename}"}
+    return StreamingResponse(bundle, media_type="application/zip", headers=headers)

@@ -40,6 +40,16 @@ python -m archive_manager run --reload
 
 La base SQLite `archive_manager.db` est créée à la racine du projet. Une fois le serveur démarré, l'interface de documentation interactive est disponible à l'adresse [http://localhost:8000/docs](http://localhost:8000/docs).
 
+### Générer une archive téléchargeable
+
+Pour fournir l'application prête à l'emploi à un collaborateur, créez une archive ZIP contenant le code, la configuration et (optionnellement) la base SQLite actuelle :
+
+```bash
+python -m archive_manager package --output archive_manager_bundle.zip --include-db
+```
+
+La commande produit un fichier `archive_manager_bundle.zip` que vous pouvez partager.
+
 ## Structure des données
 
 Les principaux modèles sont :
@@ -94,6 +104,14 @@ PUT /declarations/1?comment=Transmission%20au%20client
   "status": "en_attente_validation"
 }
 ```
+
+### Télécharger l'application depuis l'API
+
+```http
+GET /telechargements/application
+```
+
+Le serveur renvoie une archive ZIP contenant l'application prête à être installée. Ajoutez le paramètre `include_db=true` pour inclure la base de données si elle est disponible.
 
 ## Tests
 
