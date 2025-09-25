@@ -30,13 +30,15 @@ Ce dépôt contient un exemple d'API pour préparer un logiciel de suivi et d'ar
 
 ## Lancement de l'API
 
-Initialisez la base de données et démarrez le serveur de développement :
+Initialisez la base de données, insérez des données d'exemple et démarrez le serveur de développement à l'aide de l'interface en ligne de commande :
 
 ```bash
-uvicorn archive_manager.main:app --reload
+python -m archive_manager init-db
+python -m archive_manager seed
+python -m archive_manager run --reload
 ```
 
-L'interface de documentation interactive est disponible à l'adresse [http://localhost:8000/docs](http://localhost:8000/docs).
+La base SQLite `archive_manager.db` est créée à la racine du projet. Une fois le serveur démarré, l'interface de documentation interactive est disponible à l'adresse [http://localhost:8000/docs](http://localhost:8000/docs).
 
 ## Structure des données
 

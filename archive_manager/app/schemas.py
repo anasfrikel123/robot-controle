@@ -20,9 +20,9 @@ class CollaboratorCreate(CollaboratorBase):
 
 
 class CollaboratorUpdate(BaseModel):
-    full_name: Optional[str]
-    role: Optional[str]
-    active: Optional[bool]
+    full_name: Optional[str] = None
+    role: Optional[str] = None
+    active: Optional[bool] = None
 
 
 class CollaboratorRead(CollaboratorBase):
@@ -46,10 +46,10 @@ class ClientCreate(ClientBase):
 
 
 class ClientUpdate(BaseModel):
-    name: Optional[str]
-    sector: Optional[str]
-    contact_email: Optional[EmailStr]
-    archived: Optional[bool]
+    name: Optional[str] = None
+    sector: Optional[str] = None
+    contact_email: Optional[EmailStr] = None
+    archived: Optional[bool] = None
 
 
 class ClientRead(ClientBase):
@@ -62,8 +62,8 @@ class ClientRead(ClientBase):
 
 class DeclarationAttachmentBase(BaseModel):
     file_name: str
-    description: Optional[str]
-    storage_path: Optional[str]
+    description: Optional[str] = None
+    storage_path: Optional[str] = None
 
 
 class DeclarationAttachmentCreate(DeclarationAttachmentBase):
@@ -82,13 +82,13 @@ class DeclarationBase(BaseModel):
     declaration_type: DeclarationType
     status: DeclarationStatus = DeclarationStatus.brouillon
     reference: Optional[str] = Field(None, example="TVA-2024-05-001")
-    amount: Optional[float]
+    amount: Optional[float] = None
     period_start: date
     period_end: date
     due_date: date
-    submitted_at: Optional[datetime]
+    submitted_at: Optional[datetime] = None
     archived: bool = False
-    notes: Optional[str]
+    notes: Optional[str] = None
     collaborator_id: int
     client_id: int
 
@@ -98,15 +98,15 @@ class DeclarationCreate(DeclarationBase):
 
 
 class DeclarationUpdate(BaseModel):
-    status: Optional[DeclarationStatus]
-    reference: Optional[str]
-    amount: Optional[float]
-    due_date: Optional[date]
-    submitted_at: Optional[datetime]
-    archived: Optional[bool]
-    notes: Optional[str]
-    collaborator_id: Optional[int]
-    client_id: Optional[int]
+    status: Optional[DeclarationStatus] = None
+    reference: Optional[str] = None
+    amount: Optional[float] = None
+    due_date: Optional[date] = None
+    submitted_at: Optional[datetime] = None
+    archived: Optional[bool] = None
+    notes: Optional[str] = None
+    collaborator_id: Optional[int] = None
+    client_id: Optional[int] = None
 
 
 class DeclarationHistoryRead(BaseModel):
